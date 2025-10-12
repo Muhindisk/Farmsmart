@@ -1,0 +1,9 @@
+:root{font-family:system-ui,Segoe UI,Roboto,Arial}
+body{background:#f6f9f6;margin:0;padding:24px}
+.container{max-width:900px;margin:0 auto}
+.card{background:#fff;padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.06);margin-bottom:16px}
+label{display:block;margin-bottom:8px}
+input,textarea{width:100%;padding:8px;margin-top:4px;border-radius:8px;border:1px solid #e6e6e6}
+.actions{text-align:right}
+button{padding:10px 16px;border-radius:10px;border:0;background:#16a34a;color:white}
+pre{white-space:pre-wrap}
