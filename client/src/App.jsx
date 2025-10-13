@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'
+// Use the build-time value if provided, otherwise use same-origin (empty string)
+// This avoids defaulting to localhost when the frontend is deployed (which causes "failed to fetch").
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? ''
 
 export default function App() {
   const [form, setForm] = useState({ name: '', location: '', soil_type: '', soil_ph: '', rainfall_mm: '', crop: '', user_query: '' })
