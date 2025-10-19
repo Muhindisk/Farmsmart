@@ -16,19 +16,14 @@ const allowedOrigins = [
   'http://localhost:3000'
 ];
 
+// Simplified CORS - allow all origins for Vercel deployment
 app.use(cors({
-  origin: function(origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith('.vercel.app')) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: true, // Allow all origins (can be restricted later)
   credentials: true,
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  exposedHeaders: ['Content-Length'],
+  maxAge: 86400 // Cache preflight for 24 hours
 }));
 
 app.use(bodyParser.json());
@@ -38,8 +33,13 @@ const PORT = process.env.PORT || 8080;
 // Supabase service client (server-side only)
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
 
-// Handle preflight OPTIONS request explicitly
-app.options('/api/chat', cors());
+// Handle preflight OPTIONS request explicitly for all API routes
+app.options('*', cors());
+
+// Explicit OPTIONS handler for /api/chat
+app.options('/api/chat', (req, res) => {
+  res.status(200).end();
+});
 
 app.post('/api/chat', async (req, res) => {
   try {
