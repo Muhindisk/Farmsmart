@@ -17,7 +17,7 @@ export default function App() {
     setResponse(null)
     try {
       // Construct URL properly to avoid double slashes
-      const apiUrl = API_BASE ? `${API_BASE}/api/chat` : '/api/chat'
+      const apiUrl = `${API_BASE.replace(/\/$/, '')}/api/chat`
       const r = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

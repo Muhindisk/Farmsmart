@@ -11,6 +11,7 @@ const app = express();
 // CORS configuration - allow frontend origins
 const allowedOrigins = [
   'https://farmsmart-sand.vercel.app',
+  'https://farmsmart-jade.vercel.app',
   'http://localhost:5173',
   'http://localhost:3000'
 ];
