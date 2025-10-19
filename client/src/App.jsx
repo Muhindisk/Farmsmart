@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 
 // Use the build-time value if provided, otherwise use same-origin (empty string)
 // This avoids defaulting to localhost when the frontend is deployed (which causes "failed to fetch").
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? ''
+// Remove any trailing slash to prevent double slashes in URLs
+const API_BASE = (import.meta.env.VITE_API_BASE_URL ?? '').replace(/\/$/, '')
 
 export default function App() {
   const [form, setForm] = useState({ name: '', location: '', soil_type: '', soil_ph: '', rainfall_mm: '', crop: '', user_query: '' })
@@ -17,7 +18,7 @@ export default function App() {
     setResponse(null)
     try {
       // Construct URL properly to avoid double slashes
-      const apiUrl = `${API_BASE.replace(/\/$/, '')}/api/chat`
+      const apiUrl = `${API_BASE}/api/chat`
       const r = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
