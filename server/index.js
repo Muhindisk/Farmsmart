@@ -11,7 +11,6 @@ const app = express();
 // CORS configuration - allow frontend origins
 const allowedOrigins = [
   'https://farmsmart-sand.vercel.app',
-  'https://farmsmart-jade.vercel.app',
   'http://localhost:5173',
   'http://localhost:3000'
 ];
@@ -26,7 +25,9 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(bodyParser.json());
@@ -35,6 +36,9 @@ const PORT = process.env.PORT || 8080;
 
 // Supabase service client (server-side only)
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+
+// Handle preflight OPTIONS request explicitly
+app.options('/api/chat', cors());
 
 app.post('/api/chat', async (req, res) => {
   try {
