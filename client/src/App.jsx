@@ -1,8 +1,5 @@
 import React, { useState } from 'react'
 
-// Use the build-time value if provided, otherwise use same-origin (empty string)
-// This avoids defaulting to localhost when the frontend is deployed (which causes "failed to fetch").
-// Remove any trailing slash to prevent double slashes in URLs
 const API_BASE = (import.meta.env.VITE_API_BASE_URL ?? '').replace(/\/$/, '')
 
 export default function App() {

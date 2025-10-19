@@ -194,4 +194,14 @@ app.get('/', (req, res) => {
   res.send('FarmSmart server is running. POST to /api/chat to interact with the AI.');
 });
 
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+app.get('/api', (req, res) => {
+  res.json({ message: 'FarmSmart API is running', status: 'ok' });
+});
+
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+}
+
+// Export for Vercel serverless
+export default app;
