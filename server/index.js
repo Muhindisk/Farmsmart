@@ -7,7 +7,28 @@ import { createClient } from '@supabase/supabase-js';
 
 dotenv.config();
 const app = express();
-app.use(cors());
+
+// CORS configuration - allow frontend origins
+const allowedOrigins = [
+  'https://farmsmart-sand.vercel.app',
+  'https://farmsmart-jade.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:3000'
+];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith('.vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
+
 app.use(bodyParser.json());
 
 const PORT = process.env.PORT || 8080;
